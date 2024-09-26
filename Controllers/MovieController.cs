@@ -64,5 +64,55 @@ namespace MovieBackend.Controllers
 
             return CreatedAtAction("GetMovie", new { id = movie.Id }, movieDTO);
         }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> AlterMovie(int id, MovieDTO movieDTO)
+        {
+            if (id != movieDTO.Id)
+            {
+                return BadRequest();
+            }
+
+            var movie = await _context.Movies.SingleOrDefaultAsync(m => m.Id == id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            movie.Title = movieDTO.Title;
+            movie.Year = movieDTO.Year;
+            movie.DirectorId = movieDTO.DirectorId;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException) when (!MovieExists(id))
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteMovie(int id)
+        {
+            var movie = await _context.Movies.SingleOrDefaultAsync(m =>m.Id == id);
+            if (movie == null)
+            {
+                return NotFound(); 
+            }
+
+            _context.Movies.Remove(movie);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool MovieExists(int id)
+        {
+            return _context.Movies.Any(e => e.Id == id);
+        }
     }
 }
