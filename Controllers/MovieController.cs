@@ -32,9 +32,6 @@ namespace MovieBackend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<MovieDTO>> GetMovie(int id)
         {
-
-
-
             var movieDTO = await _context.Movies
                 .Where(m => m.Id == id)
                 .Select(m => new MovieDTO
@@ -54,26 +51,8 @@ namespace MovieBackend.Controllers
             return Ok(movieDTO);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<MovieDTO>> PostMovie(MovieDTO movieDTO)
-        {
-            var movie = new Movie
-            {
-                Title = movieDTO.Title,
-                Year = movieDTO.Year,
-                DirectorId = movieDTO.DirectorId
-            };
-
-            _context.Movies.Add(movie);
-            await _context.SaveChangesAsync();
-
-            movieDTO.Id = movie.Id; // Set de Id in de DTO
-
-            return CreatedAtAction(nameof(GetMovie), new { id = movie.Id }, movieDTO);
-        }
-
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateMovie(int id, MovieDTO movieDTO)
+        public async Task<ActionResult> PutMovie(int id, MovieDTO movieDTO)
         {
             if (id != movieDTO.Id)
             {
@@ -102,13 +81,31 @@ namespace MovieBackend.Controllers
             return NoContent();
         }
 
+        [HttpPost]
+        public async Task<ActionResult<MovieDTO>> PostMovie(MovieDTO movieDTO)
+        {
+            var movie = new Movie
+            {
+                Title = movieDTO.Title,
+                Year = movieDTO.Year,
+                DirectorId = movieDTO.DirectorId
+            };
+
+            _context.Movies.Add(movie);
+            await _context.SaveChangesAsync();
+
+            movieDTO.Id = movie.Id; // Set de Id in de DTO
+
+            return CreatedAtAction(nameof(GetMovie), new { id = movie.Id }, movieDTO);
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteMovie(int id)
         {
             var movie = await _context.Movies.FindAsync(id);
             if (movie == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
 
             _context.Movies.Remove(movie);

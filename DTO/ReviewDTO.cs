@@ -10,12 +10,10 @@ namespace MovieBackend.DTO
         public int Rating { get; set; }
 
         [MaxLength(50, ErrorMessage = "Gebruikersnaam mag maximaal 50 tekens bevatten.")]
-        public string UserName { get; set; }
+        public required string UserName { get; set; }
 
         [MaxLength(1000, ErrorMessage = "Beschrijving mag maximaal 1000 tekens bevatten.")]
-        public string Description { get; set; }
-
-        public DateTime CreatedAt { get; set; }
+        public required string Description { get; set; }
 
         public int MovieId { get; set; }
     }

@@ -14,8 +14,8 @@ namespace MovieBackend.Models
         
         [MaxLength(50)]
         public string UserName { get; set; }
-        
-        public DateTime CreatedAt { get; set; }
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         // Review heeft 1 movie verwijzing
         public int MovieId { get; set; }

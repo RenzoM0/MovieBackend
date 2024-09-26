@@ -17,6 +17,10 @@ namespace MovieBackend.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Review>()
+            .Property(r => r.CreatedAt)
+            .HasDefaultValueSql("CURRENT_TIMESTAMP");
         }
     }
 }
