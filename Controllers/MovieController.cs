@@ -28,25 +28,32 @@ namespace MovieBackend.Controllers
                 DirectorId = m.DirectorId
             }).ToListAsync();
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<MovieDTO>> GetMovie(int id)
         {
-            var movie = await _context.Movies.SingleOrDefaultAsync(m => m.Id == id);
 
-            if (movie == null)
+
+
+            var movieDTO = await _context.Movies
+                .Where(m => m.Id == id)
+                .Select(m => new MovieDTO
+                {
+                    Id = m.Id,
+                    Title = m.Title,
+                    Year = m.Year,
+                    DirectorId = m.DirectorId
+                }).SingleOrDefaultAsync();
+
+
+            if (movieDTO == null)
             {
                 return NotFound();
             }
-            var movieDTO = new MovieDTO
-            {
-                Id = movie.Id,
-                Title = movie.Title,
-                Year = movie.Year,
-                DirectorId = movie.DirectorId
-            };
+
             return Ok(movieDTO);
         }
-        
+
         [HttpPost]
         public async Task<ActionResult<MovieDTO>> PostMovie(MovieDTO movieDTO)
         {
@@ -62,18 +69,18 @@ namespace MovieBackend.Controllers
 
             movieDTO.Id = movie.Id; // Set de Id in de DTO
 
-            return CreatedAtAction("GetMovie", new { id = movie.Id }, movieDTO);
+            return CreatedAtAction(nameof(GetMovie), new { id = movie.Id }, movieDTO);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> AlterMovie(int id, MovieDTO movieDTO)
+        public async Task<ActionResult> UpdateMovie(int id, MovieDTO movieDTO)
         {
             if (id != movieDTO.Id)
             {
                 return BadRequest();
             }
 
-            var movie = await _context.Movies.SingleOrDefaultAsync(m => m.Id == id);
+            var movie = await _context.Movies.FindAsync(id);
             if (movie == null)
             {
                 return NotFound();
@@ -98,7 +105,7 @@ namespace MovieBackend.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteMovie(int id)
         {
-            var movie = await _context.Movies.SingleOrDefaultAsync(m =>m.Id == id);
+            var movie = await _context.Movies.FindAsync(id);
             if (movie == null)
             {
                 return NotFound(); 
