@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MovieBackend.DbContexts;
 using MovieBackend.DTO;
@@ -8,6 +9,7 @@ namespace MovieBackend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class MovieController : ControllerBase
     {
         private readonly MovieContext _context;

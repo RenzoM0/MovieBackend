@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MovieBackend.Models;
 
 namespace MovieBackend.DbContexts
 {
-    public class MovieContext : DbContext
+    public class MovieContext : IdentityDbContext<User>
     {
         public MovieContext(DbContextOptions<MovieContext> options) : base(options)
         {
