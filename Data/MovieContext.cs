@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MovieBackend.Models;
 
-namespace MovieBackend.DbContexts
+namespace MovieBackend.Data
 {
     public class MovieContext : IdentityDbContext<User>
     {

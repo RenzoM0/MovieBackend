@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MovieBackend.DbContexts;
+using MovieBackend.Data;
 using MovieBackend.DTO;
 using MovieBackend.Models;
 

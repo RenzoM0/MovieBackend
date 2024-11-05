@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using MovieBackend.DbContexts;
+using MovieBackend.Data;
 using MovieBackend.Models;
 
 var builder = WebApplication.CreateBuilder(args);

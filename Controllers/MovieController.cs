@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MovieBackend.DbContexts;
+using MovieBackend.Data;
 using MovieBackend.DTO;
 using MovieBackend.Models;
 
