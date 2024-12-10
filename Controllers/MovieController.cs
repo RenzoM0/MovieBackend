@@ -22,13 +22,20 @@ namespace MovieBackend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MovieDTO>>> GetMovies()
         {
-            return await _context.Movies.Select(m => new MovieDTO
+            var movies = await _context.Movies.Select(m => new MovieDTO
             {
                 Id = m.Id,
                 Title = m.Title,
                 Year = m.Year,
                 DirectorId = m.DirectorId
             }).ToListAsync();
+
+            if (movies == null || !movies.Any())
+            {
+                return NotFound(); // Return NotFound if no movies are found.
+            }
+
+            return Ok(movies);
         }
 
         [HttpGet("{id}")]
